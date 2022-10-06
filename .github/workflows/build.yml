@@ -1,0 +1,28 @@
+name: Building and testing
+
+on:
+  push:
+    branches:
+      - '**'
+
+jobs:
+  buildAndTest:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 16.x
+
+      - name: Install packages
+        run: npm i --legacy-peer-deps
+
+      - name: Build source
+        run: npm run build
+
+      - name: Check lint
+        run: npm run lint
+
+      - name: Check vulnerabilities
+        run: npm audit
